@@ -71,21 +71,8 @@ int main (int argc, char *argv[]) {
     exit (1);
   }
 
-  const char *usbin = "USB Audio Device Mono:capture_MONO";
-  if (jack_connect (client,
-                    usbin,
-                    jack_port_name (input_port))) {
-    fprintf (stderr, "cannot connect input ports\n");
-  }
-
-  const char *usbout = "USB Audio Device Analog Stereo:playback_FR";
-  if (jack_connect (client,
-                    jack_port_name (output_port),
-                    usbout)) {
-    fprintf (stderr, "cannot connect output ports\n");
-  }
-
-  sleep (-1);
+  while (1)
+    sleep(10);
 
   jack_client_close (client);
   exit (0);
