@@ -5,9 +5,9 @@
 - Jack applications consist of a client, that does DSP processing, and a server, that interfaces to the real-time audio devices including DAC and ADC. We will only use the client part of Jack, and use instead the services of pipewire to handle real-time IO.
 - To check the current settings used by jack, use the command
 
-``
+```
 pw-jack jack_control dp
-``
+```
 
 A sample output may look like
 
@@ -31,11 +31,11 @@ A sample output may look like
    - restart the server with ``systemctl --user restart pipewire pipewire-pulse``
  - The commands to change the sample rate are automated in Makefile. The display the current sample rate, use
 
-``
+```
 make getrate
-``
+```
  - To change the sample rate into one of the supported rates, for example 88200, use
 
-``
+```
 make setrate RATE=88200
-``
+```
