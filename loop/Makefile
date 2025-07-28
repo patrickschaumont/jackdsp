@@ -3,3 +3,5 @@ simple-client: simple-client.c
 
 clean:
 	rm -f *~ simple-client
+
+include ../scripts/pipewire.mk
