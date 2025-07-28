@@ -11,7 +11,7 @@ pw-jack jack_control dp
 
 A sample output may look like
 
-``
+```
 --- get driver parameters (type:isset:default:value)
              capture: Number of capture ports (uint:notset:2:2)
             playback: Number of playback ports (uint:notset:2:2)
@@ -19,7 +19,7 @@ A sample output may look like
              monitor: Provide monitor ports for the output (bool:notset:False:False)
               period: Frames per period (uint:notset:1024:1024)
                 wait: Number of usecs to wait between engine processes (uint:notset:21333:21333)
-``
+```
 
 ## Running an application
 
