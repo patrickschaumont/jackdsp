@@ -8,3 +8,19 @@
 ``
 pw-jack jack_control dp
 ``
+
+A sample output may look like
+
+``
+--- get driver parameters (type:isset:default:value)
+             capture: Number of capture ports (uint:notset:2:2)
+            playback: Number of playback ports (uint:notset:2:2)
+                rate: Sample rate (uint:notset:48000:48000)
+             monitor: Provide monitor ports for the output (bool:notset:False:False)
+              period: Frames per period (uint:notset:1024:1024)
+                wait: Number of usecs to wait between engine processes (uint:notset:21333:21333)
+``
+- The Hifiberry card supports the following sample rates: 44100, 48000, 88200, 96000, 176400, 192000
+- To set the sample rate, you have to reconfigure the pipewire server
+   - change the sample rate in ~/.config/pipewire/pipewire.conf
+   - restart the server with ``systemctl --user restart pipewire pipewire-pulse``
