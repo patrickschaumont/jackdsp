@@ -21,7 +21,72 @@ A sample output may look like
                 wait: Number of usecs to wait between engine processes (uint:notset:21333:21333)
 ```
 
+
 ## Running an application
+
+- Compiling and running an application under jack involves the following steps:
+     - Compile a C program using the jack API into a jack compatible client. The client defines a number of audio input ports and a number of output output ports. The ports carry audio streams that are transferred to and from the C application as frames of N samples.
+     - Run the application run ``pw-jack application_name``
+     - Connect the audio ports defined in the jack application to pipewire interfaces. An easy to use application that supports this operation is qpwgraph.
+- To compile the application, select one of the subdirectories and compile. For example:
+
+```
+pschaumont@rpi4d01:~/jackdsp $ cd loop-stereo/
+pschaumont@rpi4d01:~/jackdsp/loop-stereo $ ls
+Makefile  simple-client.c
+pschaumont@rpi4d01:~/jackdsp/loop-stereo $ make
+gcc simple-client.c -o simple-client -ljack
+```
+
+- To run the application, execute it using the pipewire jack interface
+
+```
+pschaumont@rpi4d01:~/jackdsp/loop-stereo $ pw-jack ./simple-client
+engine sample rate: 48000
+```
+- Connect the jack ports to pipewire HifiBerry ports with ```qpwgraph```
+- After connecting the ports, check the running program with ```pw-top```. The output should show what audio streams are active
+
+```
+S   ID  QUANT   RATE    WAIT    BUSY   W/Q   B/Q  ERR FORMAT           NAME
+I   30      0      0   0.0us   0.0us  ???   ???     0                  Dummy-Driver
+S   31      0      0    ---     ---   ---   ---     0                  Freewheel-Driver
+S   39      0      0    ---     ---   ---   ---     0                  Midi-Bridge
+S   60      0      0    ---     ---   ---   ---     0                  v4l2_input.platform-bcm2835-isp.2
+S   62      0      0    ---     ---   ---   ---     0                  v4l2_input.platform-bcm2835-isp.3
+S   64      0      0    ---     ---   ---   ---     0                  v4l2_input.platform-bcm2835-isp.6
+S   66      0      0    ---     ---   ---   ---     0                  v4l2_input.platform-bcm2835-isp.7
+S   72      0      0    ---     ---   ---   ---     0                  alsa_output.platform-bcm2835_audio.ste
+R   71   1024  48000 172.2us   1.4us  0.01  0.00    0    S32LE 2 48000 alsa_input.platform-soc_sound.stereo-f
+R   34      0      0  25.4us 143.9us  0.00  0.01    0    S32LE 2 48000  + alsa_output.platform-soc_sound.ster
+R   81      0      0  11.1us   2.4us  0.00  0.00    0                   + simple
+```
+
+- An alternate, text-based method to connect the jack ports is as follows. First, find the list of available input ports and output ports
+
+```
+pw-link -i
+```
+
+and
+
+```
+pw-link -o
+```
+
+- Next, connect the ports. Output ports connect to input ports. For example, the following connects the output of the jack application to the HifiBerry
+
+```
+pw-link simple:output_left alsa_output.platform-soc_sound.stereo-fallback:playback_FL
+pw-link simple:output_right alsa_output.platform-soc_sound.stereo-fallback:playback_FR
+```
+
+The following connects the output of the Hifiberry to the input of the jack application
+
+```
+pschaumont@rpi4d01:~ $ pw-link alsa_input.platform-soc_sound.stereo-fallback:capture_FL simple:input_left
+pschaumont@rpi4d01:~ $ pw-link alsa_input.platform-soc_sound.stereo-fallback:capture_FR simple:input_right
+```
 
 ## Setting the sample rate
 
