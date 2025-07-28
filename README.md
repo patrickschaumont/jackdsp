@@ -20,7 +20,22 @@ A sample output may look like
               period: Frames per period (uint:notset:1024:1024)
                 wait: Number of usecs to wait between engine processes (uint:notset:21333:21333)
 ``
+
+## Running an application
+
+## Setting the sample rate
+
 - The Hifiberry card supports the following sample rates: 44100, 48000, 88200, 96000, 176400, 192000
 - To set the sample rate, you have to reconfigure the pipewire server
    - change the sample rate in ~/.config/pipewire/pipewire.conf
    - restart the server with ``systemctl --user restart pipewire pipewire-pulse``
+ - The commands to change the sample rate are automated in Makefile. The display the current sample rate, use
+
+``
+make getrate
+``
+ - To change the sample rate into one of the supported rates, for example 88200, use
+
+``
+make setrate RATE=88200
+``
